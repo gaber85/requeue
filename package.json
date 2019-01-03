@@ -1,0 +1,26 @@
+{
+  "name": "requeue",
+  "version": "1.0.0",
+  "description": "App that receives song requests in a closed wifi network and adds them to a queue where the host is able to control what song plays next.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gaber85/requeue.git"
+  },
+  "author": "Gabriel Riera",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gaber85/requeue/issues"
+  },
+  "homepage": "https://github.com/gaber85/requeue#readme",
+  "dependencies": {
+    "@koa/cors": "^2.2.3",
+    "eslint": "^5.11.1",
+    "koa": "^2.6.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0"
+  }
+}
