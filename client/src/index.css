@@ -3,6 +3,8 @@ html {
 }
 
 body {
+  height: 100%;
+  margin:auto;
   background-image: linear-gradient(to left top,#020202,#181818);
   background-repeat: no-repeat;
 }

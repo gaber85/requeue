@@ -1,5 +1,8 @@
 .main-container {
-
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
 }
 
 .nav-bar {
@@ -13,8 +16,9 @@
 
 .search-bar {
   background-color: white;
-  padding-left: 5px;
-  
+  padding-left: 5px;  
+  border-radius: 15px;
+
 }
 
 .text-input {
@@ -24,18 +28,27 @@
   height: 25px;
   outline: none;
   padding: 5px;
+  border-radius: 15px;
+
 }
 
 .user {
   display: flex;
+  align-items: center;
+  padding: 5px;
 }
 
-.user-img {
+.user-image {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
 
 }
 
 .user-name {
   color: white;
+  padding-right: 10px;
 }
 
 .logout {
@@ -49,7 +62,6 @@
   border-radius: 15px;
   display: flex;
   flex-direction: column;
-
 }
 
 .now-playing-header {
@@ -60,7 +72,8 @@
 
 .now-playing-text {
   color: lightgray;
-  font-size: 20px
+  font-size: 20px;
+  font-weight: 800;
 }
 
 .elipse {
@@ -97,6 +110,15 @@
   color: lightgray;
   padding: 15px;
   font-size: 20px;
+  outline: none;
+  cursor: pointer;
+}
+.heart {
+  color: lightgray;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  cursor: pointer;
 }
 
 .next-up-section {
@@ -104,6 +126,7 @@
   margin-top: 5px;
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .next-up-header {
@@ -111,13 +134,14 @@
   padding-bottom: 0;
   font-size: 20px;
   color: lightgrey;
+  font-weight: 800;
 }
 
 .next-up-table {
   padding: 15px;
   text-align: left;
   color: lightgray;
-  
+  overflow-y: scroll;
 }
 
 table {
@@ -131,12 +155,11 @@ th, td {
   text-overflow: ellipsis;
 }
 
-
 .sticky-footer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .button {
@@ -147,4 +170,5 @@ th, td {
   padding: 10px;
   box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 1);
   border-radius: 15px;
+  margin: 10px;
 }
