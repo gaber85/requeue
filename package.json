@@ -16,11 +16,20 @@
     "url": "https://github.com/gaber85/requeue/issues"
   },
   "homepage": "https://github.com/gaber85/requeue#readme",
+  "devDependencies": {
+    "eslint": "5.6.0",
+    "eslint-plugin-json": "1.2.1",
+    "eslint-plugin-react": "7.11.1"
+  },
   "dependencies": {
     "@koa/cors": "^2.2.3",
-    "eslint": "5.6.0",
     "koa": "^2.6.2",
     "koa-bodyparser": "^4.2.1",
-    "koa-router": "^7.4.0"
+    "koa-router": "^7.4.0",
+    "react": "16.6.0",
+    "react-dom": "16.6.0",
+    "react-redux": "5.1.0",
+    "react-scripts": "2.1.1",
+    "redux": "4.0.1"
   }
 }
