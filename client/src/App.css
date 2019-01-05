@@ -1,32 +1,150 @@
-.App {
-  text-align: center;
+.main-container {
+
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.nav-bar {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  background-color: black;
+  height: 45px;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+
+}
+
+.search-bar {
+  background-color: white;
+  padding-left: 5px;
+  
+}
+
+.text-input {
+  border-style: none;
+  font-size: 16px;
+  align-items: center;
+  height: 25px;
+  outline: none;
+  padding: 5px;
+}
+
+.user {
+  display: flex;
+}
+
+.user-img {
+
+}
+
+.user-name {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.logout {
+  color: white;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.now-playing-container {
+  margin-top: 25px;
+  background-color: #282828;
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 1);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.now-playing-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.now-playing-text {
+  color: lightgray;
+  font-size: 20px
+}
+
+.elipse {
+  color: lightgray;
+  font-size: 20px
+}
+
+.now-playing-song-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.album-artwork {
+  padding: 15px;
+  padding-right: 0;
+  width: 20%;
+  height: 20%;
+  border-radius: 20px;
+}
+
+.song-info {
+  padding: 15px;
+  flex: 1;
+}
+
+.info {
+  padding-bottom: 2.5%;
+  color: lightgray;
+}
+
+.like-heart {
+  align-self: flex-end;
+  justify-self: flex-end;
+  color: lightgray;
+  padding: 15px;
+  font-size: 20px;
+}
+
+.next-up-section {
+  position: relative;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.next-up-header {
+  padding: 15px;
+  padding-bottom: 0;
+  font-size: 20px;
+  color: lightgrey;
+}
+
+.next-up-table {
+  padding: 15px;
+  text-align: left;
+  color: lightgray;
+  
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 8px;
+  border-bottom: 1px solid gray;
+  text-overflow: ellipsis;
+}
+
+
+.sticky-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button {
+  background-color: aliceblue;
+  font-size: 18px;
+  width: 40%;
+  text-align: center;
+  padding: 10px;
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 1);
+  border-radius: 15px;
 }

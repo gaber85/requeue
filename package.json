@@ -18,7 +18,7 @@
   "homepage": "https://github.com/gaber85/requeue#readme",
   "dependencies": {
     "@koa/cors": "^2.2.3",
-    "eslint": "^5.11.1",
+    "eslint": "5.6.0",
     "koa": "^2.6.2",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0"
