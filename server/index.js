@@ -1,6 +1,8 @@
 const Koa = require('koa');
 const app = new Koa;
-const PORT = 3000;
+const PORT = process.env.PORT || 3001;
+
+require('dotenv').config();
 
 const bodyParser = require('koa-bodyparser');
 const router = require('./router.js');
