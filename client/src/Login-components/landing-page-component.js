@@ -8,7 +8,7 @@ class LandingPage extends Component {
       <div className="landing-page-container">
         <img className="logo" alt="logo" src={Logo}></img>
         <div className="sign-in-button"><Link className="white-link" to='/sign-in'>Sign In</Link></div>
-        <div className="sign-up-button">Sign Up</div>
+        <div className="sign-up-button"><Link className="black-link" to='/register'>Sign Up</Link></div>
       </div>
     );
   }

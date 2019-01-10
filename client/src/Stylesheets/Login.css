@@ -40,6 +40,7 @@
   align-self: flex-end;
   border-style: none;
   margin-right: 0%;
+  margin-top: 20px;
   height: 40px;
   border-radius: 25px;
   display: flex;
@@ -126,4 +127,11 @@
   color: white;
   align-self: center;
   padding: 25px 0px 35px 0px;
+}
+
+.white-text {
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 18px;
 }
