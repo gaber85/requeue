@@ -56,6 +56,11 @@
   color: white;
 }
 
+.black-link {
+  text-decoration: none;
+  color: black;
+}
+
 .form-inputs {
   width: 100%;
   padding: 5%;
@@ -107,4 +112,18 @@
   color: black;
   font-size: 20px;
   font-weight: 800;
+}
+
+.green {
+  background-color: #1db854;
+  color: white;
+  max-width: 150px;
+}
+
+.host-title {
+  font-size: 5vw;
+  font-weight: 500;
+  color: white;
+  align-self: center;
+  padding: 25px 0px 35px 0px;
 }

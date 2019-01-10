@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Logo from './White.png';
+import { Link } from "react-router-dom";
 
 class SignInPage extends Component {
   white = '#FFFFFF';
@@ -14,7 +15,7 @@ class SignInPage extends Component {
           <input className="checkbox" type="checkbox" placeholder="Remember Me"></input>
           <label style={{color:this.white}}>Remember me</label>
           </div>
-          <button type="submit" className="small-button">Sign In</button>
+          <button type="submit" className="small-button"><Link className="white-link" to="/intro">Sign In</Link></button>
         </form>
       </div>
     );
