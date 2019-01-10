@@ -1,18 +1,23 @@
 .landing-page-container {
   margin: auto;
   padding-top: 2%;
-  max-width: 60%;
+  max-width: 70%;
   display: flex;
   flex-direction: column;
   align-items: center;
   font-family: 'Roboto', sans-serif;
 }
 
+a {
+  text-decoration: none;
+}
+
 .logo {
   width: 125%;
+  max-width: 700px;
   height: 125%;
   align-self: center;
-  padding-right: 16px;
+  padding-right: 2.5%;
 }
 
 .sign-in-button, .sign-up-button {
@@ -38,20 +43,30 @@
   width: 50%;
   align-self: flex-end;
   border-style: none;
+  margin-right: 0%;
+  height: 40px;
+  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 1);
+  color: white;
+  background-color: #1db854;
+  font-size: 20px;
 }
 
-.inputs {
+.form-inputs {
   width: 100%;
-  padding: 20px;
-  background-color: red;
+  padding: 5%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  max-width: 400px;
 }
 
 .sign-in-input {
-  width: 90%;
-  margin: 5px;
+  width: auto;
+  margin: 10px;
+  margin-right: 0;
   height: 35px;
   font-size: 16px;
 
@@ -59,4 +74,6 @@
 
 .checkbox {
   align-self: flex-start;
+  margin: 8px;
+  margin-bottom:20px;
 }
