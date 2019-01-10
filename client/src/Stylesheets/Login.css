@@ -8,10 +8,6 @@
   font-family: 'Roboto', sans-serif;
 }
 
-a {
-  text-decoration: none;
-}
-
 .logo {
   width: 125%;
   max-width: 700px;
@@ -53,6 +49,11 @@ a {
   color: white;
   background-color: #1db854;
   font-size: 20px;
+  font-family: 'Roboto', sans-serif;
+}
+.white-link {
+  text-decoration: none;
+  color: white;
 }
 
 .form-inputs {
@@ -76,4 +77,34 @@ a {
   align-self: flex-start;
   margin: 8px;
   margin-bottom:20px;
+}
+
+.small-logo {
+  width: 30%;
+  min-width: 150px;
+  align-self: center;
+  padding-right: 2.5%;
+}
+
+.intro-title {
+  font-size: 7vw;
+  color: white;
+  align-self: flex-start;
+  padding: 25px 0px 35px 0px;
+}
+
+.intro-button {
+  background-color: white;
+  width: 60%;
+  max-width: 300px;
+  height: 50px;
+  margin: 25px;
+  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 1);
+  color: black;
+  font-size: 20px;
+  font-weight: 800;
 }
