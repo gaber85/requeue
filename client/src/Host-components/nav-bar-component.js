@@ -11,7 +11,27 @@ class NavBar extends Component {
   }
   access_token= ''
 
+  getHashParams = () => {
+    const hashParams = {};
+    let e, r = /([^&;=]+)=?([^&;]*)/g,
+        q = window.location.search.substring(1);
+        //e = r.exec(q);
+    while ( e = r.exec(q) ) {
+      console.log(e);
+      hashParams[e[1]] = decodeURIComponent(e[2]);
+      console.log(e);
+    }
+    return hashParams;
+  }
+
+  getAccessToken = () => {
+    const params = this.getHashParams();
+    this.access_token = params.access_token;
+  }
+
+
   getProfilePic = () => {
+    
     fetch('https://api.spotify.com/v1/me', {
       headers: {
         'Authorization': `Bearer ${this.access_token}`
@@ -24,7 +44,8 @@ class NavBar extends Component {
         });
       });
   }
-  componentDidMount(){
+  componentDidMount() {
+  this.getAccessToken()
   this.getProfilePic();
   }
 
