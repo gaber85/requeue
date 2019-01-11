@@ -13,7 +13,7 @@ class SignInPage extends Component {
           <input className="sign-in-input" type="text" placeholder="Password..."></input>
           <div>
           <input className="checkbox" type="checkbox" placeholder="Remember Me"></input>
-          <label style={{color:this.white}}>Remember me</label>
+          <div style={{color:this.white}}>Remember me</div>
           </div>
           <button type="submit" className="small-button"><Link className="white-link" to="/intro">Sign In</Link></button>
         </form>

@@ -1,10 +1,11 @@
 
 const request = require('request');
 const querystring = require('querystring');
+require('dotenv').config();
 
-const client_id = process.env.client_id;
-const client_secret = process.env.client_secret;
-const redirect_uri = 'http://localhost:3001/callback';
+const client_id = process.env.client_id; //
+const client_secret = process.env.client_secret; //process.env.client_secret;
+const redirect_uri = process.env.redirect_uri;
 let access_token = '';
 let refresh_token = '';
 
@@ -17,9 +18,15 @@ const generateRandomString = (length) => {
   return text;
 };
 const stateKey = 'spotify_auth_state';
+exports.test = async (ctx) => {
+  console.log('test');
+};
 
 exports.login = async (ctx) => {
+  console.log(client_id);
   const state = generateRandomString(16);
+  console.log('state at login:', state);
+
   const scope = 'user-read-private user-read-email';
   ctx.cookies.set(stateKey, state);
   // my app requests authorization
@@ -30,14 +37,25 @@ exports.login = async (ctx) => {
       scope: scope,
       redirect_uri: redirect_uri,
       state: state
-    }));
+    })
+  );
+  console.log('redirected');
 };
 
 exports.callback = async (ctx) => {
+  console.log('entered callback');
   // the callback was executed by the spotify api and sent with the authorization code
   const code = ctx.request.query.code || null;
   const state = ctx.request.query.state || null;
   const storedState = ctx.cookies.get(stateKey) || null;
+
+  console.log('stateKey', stateKey);
+  console.log('cookies', ctx.cookies.get(stateKey));
+  console.log('code',code);
+  console.log('state', state);
+  console.log('storedState',storedState);
+  console.log('past the code');
+  
   
   if (state === null || state !== storedState) {
     // if the state and storeState don't match then produce error
@@ -56,7 +74,7 @@ exports.callback = async (ctx) => {
         grant_type: 'authorization_code'
       },
       headers: {
-        'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+        'Authorization': 'Basic ' + (Buffer(client_id + ':' + client_secret).toString('base64'))
       },
       json: true
     };
@@ -64,6 +82,7 @@ exports.callback = async (ctx) => {
     request.post(authOptions, (error, response, body) => {
       if (!error && response.statusCode === 200) {
         access_token = body.access_token;
+        console.log('access token', access_token);
         refresh_token = body.refresh_token;
         const options = {
           url: 'https://api.spotify.com/v1/me',
@@ -73,7 +92,21 @@ exports.callback = async (ctx) => {
         // test to see if I get profile object (spotify web API call)
         request.get(options, (error, response, body) => {
           console.log(body); // eslint-disable-line no-console
+          ctx.body = body;
         });
+        // passes the token to the browser to make requests from there
+        ctx.redirect('http://localhost:3000/dashboard?' + 
+        querystring.stringify({
+          access_token: access_token,
+          refresh_token: refresh_token
+        }));
+        console.log('last redirect');
+        
+      } else {
+        ctx.redirect('/#' + 
+        querystring.stringify({
+          error: 'invalid_token'
+        }));
       }
     });
   }
