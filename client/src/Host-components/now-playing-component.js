@@ -10,6 +10,11 @@ class NowPlaying extends Component {
   toggleLike = () => {
     this.setState({favorite: !this.state.favorite});
   }
+
+  componentDidMount() {
+
+  }
+
   render() {
     return (
       <div className="now-playing-container">

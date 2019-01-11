@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
+import userImg from './user-image.png';
 
 class NavBar extends Component {
   constructor(props) {
@@ -10,16 +11,15 @@ class NavBar extends Component {
     }
   }
   access_token= ''
+  userPic = userImg;
 
   getHashParams = () => {
     const hashParams = {};
     let e, r = /([^&;=]+)=?([^&;]*)/g,
         q = window.location.search.substring(1);
         //e = r.exec(q);
-    while ( e = r.exec(q) ) {
-      console.log(e);
+    while ( e = r.exec(q) ) { // eslint-disable-line no-cond-assign
       hashParams[e[1]] = decodeURIComponent(e[2]);
-      console.log(e);
     }
     return hashParams;
   }
@@ -30,7 +30,7 @@ class NavBar extends Component {
   }
 
 
-  getProfilePic = () => {
+  getProfileInfo = () => {
     
     fetch('https://api.spotify.com/v1/me', {
       headers: {
@@ -39,14 +39,14 @@ class NavBar extends Component {
     }).then(response => response.json())
       .then(props  => {
         this.setState({ 
-          url: props.images[0].url,
+          url: props.images.length ? props.images[0].url : '',
           name: props.display_name.split(' ')[0]
         });
       });
   }
   componentDidMount() {
   this.getAccessToken()
-  this.getProfilePic();
+  this.getProfileInfo();
   }
 
   render() {
@@ -57,7 +57,7 @@ class NavBar extends Component {
           <input className="text-input" type="text" placeholder="Search..."></input>
         </div>
         <div className="user">
-          <img className="user-image" src={this.state.url} alt="user-profile"></img>
+          <img className="user-image" src={this.state.url ? this.state.url : this.userPic} alt="user-profile"></img>
           <div className="user-name">{this.state.name}</div>
           <div className="logout"><Link className="white-link" to="/">Logout</Link></div>
         </div>
