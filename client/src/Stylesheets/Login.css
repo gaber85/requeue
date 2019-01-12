@@ -141,6 +141,14 @@
   padding: 25px 0px 35px 0px;
 }
 
+.welcome-title {
+  font-size: 10vw;
+  font-weight: 500;
+  color: white;
+  align-self: center;
+  padding: 10px;
+}
+
 .titles {
   font-size: 5vw;
   font-weight: 500;

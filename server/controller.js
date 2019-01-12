@@ -82,7 +82,7 @@ exports.callback = async (ctx) => {
           .catch((err) => {
             console.log(err); // eslint-disable-line no-console
           });
-        ctx.redirect('http://localhost:3000/intro?' + 
+        ctx.redirect('http://localhost:3000/dashboard?' + 
             querystring.stringify({
               access_token: access_token,
               refresh_token: refresh_token
