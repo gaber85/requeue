@@ -175,6 +175,11 @@ th, td {
   margin: 10px;
 }
 
+.center {
+  align-self: center;
+  margin: 10px 0 20px 0;
+}
+
 li {
   padding-bottom: 10px;
 }

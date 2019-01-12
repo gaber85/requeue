@@ -130,6 +130,15 @@
   padding: 25px 0px 35px 0px;
 }
 
+.titles {
+  font-size: 5vw;
+  font-weight: 500;
+  color: white;
+  align-self: center;
+  padding: 20px 0px 20px 0px;
+}
+
+
 .white-text {
   color: white;
   text-align: center;

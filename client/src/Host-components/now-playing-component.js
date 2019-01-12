@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-//import Script from 'react-load-script';
+import coverImg from './cover-placeholder.png';
 
 class NowPlaying extends Component {
   constructor (props) {
@@ -13,9 +13,11 @@ class NowPlaying extends Component {
       trackName: 'Track Name',
       artistName: 'Artist Name',
       albumName: 'Album Name',
+      albumCover: '',
       playing: false,
       position: 0,
       duration: 0,
+      nextTracks: '',
     }
     this.playerCheckInterval = null;
   }
@@ -44,20 +46,21 @@ class NowPlaying extends Component {
       clearInterval(this.playerCheckInterval);
       console.log('cleared interval');
     }
-    // this.player.getCurrentState().then(state => {
-    //   if (!state) {
-    //     console.error('User is not playing music through the Web Playback SDK');
-    //     return;
-    //   }
-    
-    //   let {
-    //     current_track,
-    //     next_tracks: [next_track]
-    //   } = state.track_window;
-    
-    //   console.log('Currently Playing', current_track);
-    //   console.log('Playing Next', next_track);
-    // });
+  }
+
+  transferPlaytoRequeue() {
+    const { deviceId, access_token } = this.state;
+    fetch('https://api.spotify.com/v1/me/player', {
+      method: 'PUT',
+      headers: {
+        authorization: `Bearer ${access_token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'device_ids': [ deviceId ],
+        'play': false,
+      })
+    })
   }
 
   createEventHandlers() {
@@ -68,32 +71,59 @@ class NowPlaying extends Component {
     });
     this.player.on('account_error', e => { console.error(e); });
     this.player.on('playback_error', e => { console.error(e); });
-  
     // Playback status updates
-    this.player.on('player_state_changed', state => { console.log(state); });
-  
+    this.player.on('player_state_changed', state => this.onStateChanged(state)); //this.onStateChanged(state)
     // Ready
-    this.player.on('ready', data => {
+    this.player.on('ready', async data => {
       let { device_id } = data;
       console.log("Let's play music!");
-      this.setState({ deviceId: device_id });
+      await this.setState({ deviceId: device_id });
+      this.transferPlaytoRequeue();
     });
   }
 
   onStateChanged(state) {
     if (state !== null) {
-      
+      const {
+        current_track: currentTrack,
+        next_tracks: nextSongs,
+        position,
+        duration,
+      } = state.track_window;
+      const trackName = currentTrack.name;
+      const albumName = currentTrack.album.name;
+      const albumCover = currentTrack.album.images.map(image => image.url)[0];
+      const artistName = currentTrack.artists.map(artist => artist.name).join(', ');
+      const playing = !state.paused;
+      const nextTracks = nextSongs.map(song => song);
+      this.setState({
+        position,
+        duration,
+        trackName,
+        albumName,
+        albumCover,
+        artistName,
+        playing,
+        nextTracks,
+      });
     }
+  }
+
+  //player controls
+  onPrevClick() {
+    this.player.previousTrack();
+  }
+
+  onPlayClick() {
+    this.player.togglePlay();
+  }
+
+  onNextClick() {
+    this.player.nextTrack();
   }
 
   toggleLike = () => {
     this.setState({favorite: !this.state.favorite});
-  }
-
-  componentDidMount() {
-    //this.handlePlayer();
-    //this.checkForPlayer();
-    console.log('token',this.props.token);
   }
 
   render() {
@@ -103,11 +133,14 @@ class NowPlaying extends Component {
       artistName,
       trackName,
       albumName,
+      albumCover,
       // error,
       // position,
       // duration,
-      // playing,
+      playing,
     } = this.state
+
+    const cover = coverImg;
 
     return (
       <div className="now-playing-container">
@@ -115,11 +148,11 @@ class NowPlaying extends Component {
       {loggedIn ?
         (<div className="now-playing-container">
           <div className="now-playing-header">
-            <div className="now-playing-text">Now Playing <i className="fas fa-volume-up"></i></div>
+            <div className="now-playing-text">Now Playing {playing ? (<i className="fas fa-volume-up"></i>) : ''}</div>
             <div className="elipse"><i className="fas fa-ellipsis-h"></i></div>
           </div>
           <div className="now-playing-song-container">
-            <img className="album-artwork" src="https://www.billboard.com/files/styles/900_wide/public/media/Pink-Floyd-Dark-Side-of-the-Moon-album-covers-billboard-1000x1000.jpg" alt="album cover"></img>
+            <img className="album-artwork" src={albumCover ? albumCover : cover} alt="album cover"></img>
             <div className="song-info">
               <div className="info"><b>Title:</b> {trackName}</div>
               <div className="info"><b>Album:</b> {albumName}</div>
@@ -129,11 +162,17 @@ class NowPlaying extends Component {
             </div>
             <div className="like-heart" onClick={this.toggleLike}><i className={this.state.favorite ? "fas fa-heart" : "far fa-heart"}></i></div>
           </div>
+          <div>
+            <button onClick={() => this.onPrevClick()}><i className="fas fa-backward"></i></button>
+            <button onClick={() => this.onPlayClick()}>{playing ? (<i className="fas fa-play"></i>) : (<i className="fas fa-pause"></i>)}</button>
+            <button onClick={() => this.onNextClick()}><i className="fas fa-forward"></i></button>
+            <button onClick={() => this.checkForPlayer()}>Listen Here</button>
+          </div>
         </div>)
         :
         (<div className="now-playing-container">
-          <div className="host-title">Add songs to your queue!</div>
-          <div className="host-title"><button onClick={()=>this.handlePlayer()}>Play</button></div>
+          <div className="titles">Add songs to your queue!</div>
+          <button onClick={()=>this.handlePlayer()} className="button center">Play</button>
         </div>)}
       </div>
     );
