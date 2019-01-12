@@ -97,3 +97,7 @@ exports.callback = async (ctx) => {
       });
   }//end of else statement
 };
+
+exports.createSession = async (ctx) => {
+
+};
