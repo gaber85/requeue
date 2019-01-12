@@ -22,7 +22,7 @@ exports.test = async (ctx) => {
 
 exports.login = async (ctx) => {
   const state = generateRandomString(16);
-  const scope = 'user-read-private user-read-email';
+  const scope = 'user-read-private user-read-email user-read-birthdate streaming user-read-private user-library-modify playlist-read-collaborative user-read-currently-playing playlist-modify-public user-read-playback-state user-modify-playback-state';
   ctx.cookies.set(stateKey, state);
   // my app requests authorization
   ctx.redirect('https://accounts.spotify.com/authorize?' +
