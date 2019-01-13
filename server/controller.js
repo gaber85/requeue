@@ -20,6 +20,15 @@ exports.test = async (ctx) => {
   
 };
 
+exports.loginCheck = async (ctx) => {
+
+
+  ctx.redirect('http://localhost:3000/intro?' + 
+    querystring.stringify({
+      access_token: access_token,
+    }));
+};
+
 exports.login = async (ctx) => {
   const state = generateRandomString(16);
   const scope = 'user-read-private user-read-email user-read-birthdate streaming user-read-private user-library-modify playlist-read-collaborative user-read-currently-playing playlist-modify-public user-read-playback-state user-modify-playback-state';
@@ -78,11 +87,12 @@ exports.callback = async (ctx) => {
           .then((response) => {
             console.log(response); // eslint-disable-line no-console
             ctx.body = response;
+            // need to save to database user profile and access token
           })
           .catch((err) => {
             console.log(err); // eslint-disable-line no-console
           });
-        ctx.redirect('http://localhost:3000/dashboard?' + 
+        ctx.redirect('http://localhost:3000/intro?' + 
             querystring.stringify({
               access_token: access_token,
               refresh_token: refresh_token
