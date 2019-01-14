@@ -1,6 +1,8 @@
 
 const requestPromise = require('request-promise-native');
 const querystring = require('querystring');
+const SpotifyWebApi = require('spotify-web-api-node');
+const spotifyApi = new SpotifyWebApi;
 require('dotenv').config();
 
 let access_token = '';
@@ -78,6 +80,7 @@ exports.callback = async (ctx) => {
       .then(async (body) => {
         access_token = body.access_token;
         refresh_token = body.refresh_token;
+        spotifyApi.setAccessToken(access_token);
         const options = {
           url: 'https://api.spotify.com/v1/me',
           headers: { 'Authorization': 'Bearer ' + access_token },

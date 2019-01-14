@@ -18,7 +18,18 @@
   background-color: white;
   padding-left: 5px;  
   border-radius: 15px;
+  max-width: 60%;
+  width: 60%;
+  margin: auto;
 
+}
+
+.search-header {
+  padding: 15px;
+  padding-bottom: 20px;
+  font-size: 30px;
+  color: lightgrey;
+  font-weight: 800;
 }
 
 .text-input {
@@ -188,10 +199,17 @@ ul {
   list-style: none;
 }
 
-.user-list {
+.search-results {
+  display: flex;
+  flex-wrap: wrap;
   padding: 15px;
   text-align: left;
   color: lightgray;
   overflow-y: scroll;
   flex: 1;
 }
+
+.search-item {
+  padding: 10px;
+}
+
