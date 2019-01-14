@@ -84,10 +84,7 @@ class IntroPage extends Component {
         ) : (
           <div className="animated fadeIn duration-3s intro-page-container">
             <div className="intro-title">I want to...</div>
-            <div className="intro-button">
-              {/* <a className="black-link" href={this.CREATE_URL}>Host</a> */}
-              <div className="black-link" onClick={this.createSession}>Host</div>
-            </div>
+            <div className="intro-button" onClick={this.createSession}>Host</div>
             <div className="intro-button">Join</div>
           </div>
         )}

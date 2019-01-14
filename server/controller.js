@@ -2,7 +2,10 @@
 const requestPromise = require('request-promise-native');
 const querystring = require('querystring');
 const SpotifyWebApi = require('spotify-web-api-node');
-const spotifyApi = new SpotifyWebApi;
+const spotifyApi = new SpotifyWebApi();
+const User = require('./model/user-model');
+const Playlist = require('./model/playlist-model');
+
 require('dotenv').config();
 
 let access_token = '';
@@ -27,6 +30,26 @@ exports.loginCheck = async (ctx) => {
 };
 
 exports.login = async (ctx) => {
+  // const id = ctx.params.id ? ctx.params.id : '';
+  // const user = id ? await User.findOne({ userId: id }) : '';
+  // if (user) {
+  //   spotifyApi.setRefreshToken(user.userRefreshToken);
+  //   spotifyApi.refreshAccessToken()
+  //     .then((data) => {
+  //       console.log('The access token has been refreshed!');
+  //       spotifyApi.setAccessToken(data.body['access_token']);
+  //       ctx.redirect('http://localhost:3000/intro?' + 
+  //         querystring.stringify({
+  //           access_token: data.body['access_token'],
+  //           refresh_token: data.body['refresh_token'],
+  //         })
+  //       );
+  //     },
+  //     (err) => {
+  //       console.log('Could not refresh access token', err);
+  //     });
+  // }
+
   const state = generateRandomString(16);
   const scope = 'user-read-private user-read-email user-read-birthdate streaming user-read-private user-library-modify playlist-read-collaborative user-read-currently-playing playlist-modify-public user-read-playback-state user-modify-playback-state';
   ctx.cookies.set(stateKey, state);
@@ -66,7 +89,7 @@ exports.callback = async (ctx) => {
         grant_type: 'authorization_code'
       },
       headers: {
-        'Authorization': 'Basic ' + (Buffer(process.env.CLIENT_ID + ':' + process.env.CLIENT_SECRET).toString('base64'))
+        'Authorization': 'Basic ' + (Buffer.from(process.env.CLIENT_ID + ':' + process.env.CLIENT_SECRET).toString('base64'))
       },
       json: true
     };
@@ -82,8 +105,26 @@ exports.callback = async (ctx) => {
           json: true
         };
         await requestPromise(options)
-          .then((response) => {
+          .then( async (response) => {
             console.log(response); // eslint-disable-line no-console
+            // const newUser = new User({
+            //   userName: response.display_name.split(' ')[0],
+            //   userId: response.id,
+            //   userAccessToken: access_token,
+            //   userRefreshToken: refresh_token,
+            // });
+            // newUser.save((err, newUser) => {
+            //   if (err) console.error(err);
+            //   console.log('New user created:\n', newUser);
+            // });
+            const newUser = await User.create({
+              userName: response.display_name.split(' ')[0],
+              userId: response.id,
+              userAccessToken: access_token,
+              userRefreshToken: refresh_token,
+            });
+            console.log('new user created: ', newUser);
+            
             ctx.body = response;
             // need to save to database user profile and access token
           })
@@ -107,5 +148,19 @@ exports.callback = async (ctx) => {
 };
 
 exports.createSession = async (ctx) => {
-  // create session
+  const { id } = ctx.params;
+  const user = await User.findOne({ userId: id });
+  spotifyApi.setAccessToken(user.userAccessToken);
+
+  spotifyApi.getUserPlaylists(id)
+    .then((data) => {
+      console.log('Retrieved playlists', data.body);
+    },
+    (err) => {
+      console.log('Something went wrong!', err);
+    });
+
+  // const playlistName =
+
+  // spotifyApi.createPlaylist(ctx.params.id, playlistName, {public: true});
 };
