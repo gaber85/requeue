@@ -13,7 +13,7 @@ class IntroPage extends Component {
     };
     this.welcomeInterval = null;
   }
-
+  CREATE_URL = 'http://localhost:3001/createSession';
   access_token= ''
 
   getHashParams = () => { 
@@ -63,9 +63,7 @@ class IntroPage extends Component {
   setTimeout(() => this.handleWelcome(), 2000); // this delay the rendering for the welcome
   }
 
-  CREATE_URL = 'http://localhost3001/createSession';
-
-  createSession() {
+  createSession = () => {
     fetch(`${this.CREATE_URL}/${this.state.id}`)
     .then(res => res.json())
     .then(session => {

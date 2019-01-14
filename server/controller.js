@@ -21,7 +21,6 @@ const generateRandomString = (length) => {
 };
 const stateKey = 'spotify_auth_state';
 exports.test = async (ctx) => {
-  ctx.body = process.env.CLIENT_ID;
   
 };
 
@@ -107,16 +106,7 @@ exports.callback = async (ctx) => {
         await requestPromise(options)
           .then( async (response) => {
             console.log(response); // eslint-disable-line no-console
-            // const newUser = new User({
-            //   userName: response.display_name.split(' ')[0],
-            //   userId: response.id,
-            //   userAccessToken: access_token,
-            //   userRefreshToken: refresh_token,
-            // });
-            // newUser.save((err, newUser) => {
-            //   if (err) console.error(err);
-            //   console.log('New user created:\n', newUser);
-            // });
+
             const newUser = await User.create({
               userName: response.display_name.split(' ')[0],
               userId: response.id,
@@ -148,19 +138,41 @@ exports.callback = async (ctx) => {
 };
 
 exports.createSession = async (ctx) => {
+  // generate code word
+  const generateCodeWord = () => {
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let codeWord = '';
+    for (let i = 0; i < 5; i++) {
+      codeWord += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return codeWord;
+  };
   const { id } = ctx.params;
-  const user = await User.findOne({ userId: id });
   spotifyApi.setAccessToken(user.userAccessToken);
+  const codeWord = generateCodeWord();
+  const playlist = await Playlist.findOne({ userId: id, playlistName: 'requeue' });
 
-  spotifyApi.getUserPlaylists(id)
-    .then((data) => {
-      console.log('Retrieved playlists', data.body);
-    },
-    (err) => {
-      console.log('Something went wrong!', err);
-    });
-
-  // const playlistName =
-
-  // spotifyApi.createPlaylist(ctx.params.id, playlistName, {public: true});
+  playlist ?
+    ctx.body = {
+      playlistId: playlist.playlistId,
+      codeWord: playlist.codeWord,
+    }
+    :
+    spotifyApi.createPlaylist(id, 'requeue', { public: true })
+      .then(async (data) => {
+        const newPlaylist = await Playlist.create({
+          playlistName: 'requeue',
+          PlaylistId: data.body.id,
+          userId: id,
+          Songs: [],
+          codeWord: codeWord,
+        });
+        console.log('Created playlist:', newPlaylist);
+        ctx.body = {
+          playlistId: data.body.id,
+          codeWord: codeWord,
+        };
+      }, (err) => {
+        console.log('Something went wrong!', err);
+      });
 };

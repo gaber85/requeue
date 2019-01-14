@@ -3,16 +3,6 @@ import { Link } from "react-router-dom";
 
 class WantToHost extends Component {
 
-  generateCodeWord() {
-    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let codeWord = '';
-    for (let i = 0; i < 5; i++) {
-      codeWord += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return codeWord;
-  };
-  
-
   render () {
     const codeWord = this.generateCodeWord();
     return (
