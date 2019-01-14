@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
+import Logo from '../Login-components/White.png';
 
 class NavBar extends Component {
 
   render() {
+    const logo = Logo;
     return (
       <div className="nav-bar">
-        <div className="search-bar">
-          <i className="fas fa-search"></i>
-          <input className="text-input" type="text" placeholder="Search..."></input>
-        </div>
+        <img className="small-logo" alt="logo" src={logo}></img>
         <div className="user">
           <img className="user-image" src={this.props.url} alt="user-profile"></img>
           <div className="user-name">{this.props.name}</div>

@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import StickyFooterUsers from './sticky-footer-users';
 
 class Search extends Component {
   constructor(props) {
@@ -51,7 +50,6 @@ class Search extends Component {
             </li>
           </ul>
         </div>
-        <StickyFooterUsers />
       </div>
     );
   }

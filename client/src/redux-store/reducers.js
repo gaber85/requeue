@@ -1,9 +1,22 @@
 import { combineReducers } from 'redux';
 
-const users = (state = [], action) => {
+const defaultState = {
+  currentUser: {},
+  playlist: {
+    songs: [],
+  },
+}
+
+const users = (state = defaultState, action) => {
   switch(action.type) {
     case 'GET_TOKEN':
-      return state;
+      return {
+        ...state,
+        currentUser: {
+          ...state.currentUser,
+          token: action.token,
+        }
+      };
     default:
       return state;
   }

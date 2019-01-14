@@ -10,7 +10,7 @@ import SignInPage from "./Login-components/sign-in-page-component";
 import IntroPage from "./Login-components/intro-page-component";
 import WantToHost from "./Login-components/want-to-host-component";
 import Register1 from "./Login-components/register-step-1-component";
-import Search from "./Host-components/search-component";
+import SearchContainer from "./Containers/search-container";
 
 class App extends Component {
   render() {
@@ -23,7 +23,7 @@ class App extends Component {
           <Route path="/intro" component={IntroPage} />
           <Route path="/host" component={WantToHost} />
           <Route path="/dashboard" component={Dashboard} />
-          <Route path="/search" component={Search} />
+          <Route path="/search" component={SearchContainer} />
           <Route path="/history" component={History} />
         </div>
       </Router>
