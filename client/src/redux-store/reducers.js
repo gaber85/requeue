@@ -7,7 +7,7 @@ const defaultState = {
   },
 }
 
-const users = (state = defaultState, action) => {
+const user = (state = defaultState, action) => {
   switch(action.type) {
     case 'GET_TOKEN':
       return {
@@ -17,6 +17,15 @@ const users = (state = defaultState, action) => {
           token: action.token,
         }
       };
+    case 'GET_USER':
+      return {
+        ...state,
+        currentUser: {
+          ...state.currentUser,
+          name: action.name,
+          image: action.image,
+        }
+      }
     default:
       return state;
   }
@@ -24,7 +33,7 @@ const users = (state = defaultState, action) => {
 
 
 const reducers = combineReducers({
-  users,
+  user,
 })
 
 export default reducers;
