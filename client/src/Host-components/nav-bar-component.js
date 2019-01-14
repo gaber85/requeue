@@ -6,8 +6,6 @@ import userImg from './user-image.png';
 
 class NavBar extends Component {
 
-  
-
   render() {
     const logo = Logo;
     const userPic = userImg;

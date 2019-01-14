@@ -22,6 +22,7 @@ class App extends Component {
           <Route path="/register" component={Register1} />
           <Route path="/intro" component={IntroPage} />
           <Route path="/host" component={WantToHost} />
+          {/* <Route path="/session/:sessionId" component={WantToHost} /> */}
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/search" component={SearchContainer} />
           <Route path="/history" component={History} />

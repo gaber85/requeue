@@ -55,11 +55,23 @@ class IntroPage extends Component {
       welcome: false
     });
   }
+
+
   
   componentWillMount() {
   this.getAccessToken()
   this.getProfileInfo();
   setTimeout(() => this.handleWelcome(), 2000); // this delay the rendering for the welcome
+  }
+
+  CREATE_URL = 'http://localhost3001/createSession';
+
+  createSession() {
+    fetch(this.CREATE_URL)
+    .then(res => res.json())
+    .then(session => {
+      this.props.history.go(`/host/${session.id}`);
+    })
   }
 
   render() {
@@ -74,7 +86,8 @@ class IntroPage extends Component {
           <div className="animated fadeIn duration-3s intro-page-container">
             <div className="intro-title">I want to...</div>
             <div className="intro-button">
-              <Link className="black-link" to="/host">Host</Link>
+              {/* <a className="black-link" href={this.CREATE_URL}>Host</a> */}
+              <div className="black-link" onClick={this.createSession}>Host</div>
             </div>
             <div className="intro-button">Join</div>
           </div>
