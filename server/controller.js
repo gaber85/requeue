@@ -23,12 +23,7 @@ exports.test = async (ctx) => {
 };
 
 exports.loginCheck = async (ctx) => {
-
-
-  ctx.redirect('http://localhost:3000/intro?' + 
-    querystring.stringify({
-      access_token: access_token,
-    }));
+  // check to see if user's token is still valid
 };
 
 exports.login = async (ctx) => {
@@ -112,5 +107,5 @@ exports.callback = async (ctx) => {
 };
 
 exports.createSession = async (ctx) => {
-
+  // create session
 };

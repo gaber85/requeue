@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getToken, getUser } from '../redux-store/actions'
 
@@ -10,6 +9,7 @@ class IntroPage extends Component {
       welcome: true,
       url: '',
       name: '',
+      id: '',
     };
     this.welcomeInterval = null;
   }
@@ -42,10 +42,11 @@ class IntroPage extends Component {
       },
     }).then(response => response.json())
       .then(props  => {
-        this.props.getUser(props.display_name.split(' ')[0], props.images.length ? props.images[0].url : '');
+        this.props.getUser(props.display_name.split(' ')[0], props.images.length ? props.images[0].url : '', props.id);
         this.setState({ 
           url: props.images.length ? props.images[0].url : '',
           name: props.display_name.split(' ')[0],
+          id: props.id,
         });
       });
   }
@@ -55,8 +56,6 @@ class IntroPage extends Component {
       welcome: false
     });
   }
-
-
   
   componentWillMount() {
   this.getAccessToken()
@@ -67,7 +66,7 @@ class IntroPage extends Component {
   CREATE_URL = 'http://localhost3001/createSession';
 
   createSession() {
-    fetch(this.CREATE_URL)
+    fetch(`${this.CREATE_URL}/${this.state.id}`)
     .then(res => res.json())
     .then(session => {
       this.props.history.go(`/host/${session.id}`);
@@ -105,7 +104,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   // maps dispatch actions to props
   getToken: (token) => dispatch(getToken(token)),
-  getUser: (name, imageURL) => dispatch(getUser(name, imageURL)),
+  getUser: (name, imageURL, id) => dispatch(getUser(name, imageURL, id)),
 })
 
 export default connect(

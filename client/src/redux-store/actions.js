@@ -3,8 +3,9 @@ export const getToken = (token) => ({
   token: token,
 });
 
-export const getUser = (name, imageURL) => ({
+export const getUser = (name, imageURL, id) => ({
   type: 'GET_USER',
   name: name,
   image: imageURL,
+  id: id,
 });

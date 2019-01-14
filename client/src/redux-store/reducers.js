@@ -24,6 +24,7 @@ const user = (state = defaultState, action) => {
           ...state.currentUser,
           name: action.name,
           image: action.image,
+          id: action.id,
         }
       }
     default:
