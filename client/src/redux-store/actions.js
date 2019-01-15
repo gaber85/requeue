@@ -29,3 +29,8 @@ export const removeSong = (id) => ({
   type: 'REMOVE_SONG',
   id: id,
 });
+
+export const fetchPlaylist = (songs) => ({
+  type: 'FETCH_PLAYLIST',
+  songs: songs,
+});

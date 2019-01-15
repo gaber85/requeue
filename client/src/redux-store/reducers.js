@@ -59,6 +59,14 @@ const user = (state = defaultState, action) => {
           songs: [ ...updatedSongList ]
         }
       }
+    case 'FETCH_PLAYLIST':
+      return {
+        ...state,
+        playlist: {
+          ...state.playlist,
+          songs: action.songs,
+        }
+      }
     default:
       return state;
   }

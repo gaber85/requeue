@@ -178,7 +178,7 @@ exports.search = async (ctx) => {
   console.log('enters search function');
   
   const { item } = ctx.params;
-  spotifyApi.setAccessToken( 'BQAxfmS5NN5pUo3bDLi006acm2cApdUhcj4J-L7nyOKe1u-ul0SZFwnJwznIEvvh5U_Q9l3kriRxG46svo5POFmiabL8-j0B3PBppUSHLdKD4JTLC51j4dPGHSryp6gmRaI86Ckb2yu1WCw9UoDtg-hXMkEj0MbE2tlkEewbX64ACe5Qg_TzNcry0uiITw67nuyr2n7Jvgc_GMiijI9F');
+  //spotifyApi.setAccessToken( 'BQAxfmS5NN5pUo3bDLi006acm2cApdUhcj4J-L7nyOKe1u-ul0SZFwnJwznIEvvh5U_Q9l3kriRxG46svo5POFmiabL8-j0B3PBppUSHLdKD4JTLC51j4dPGHSryp6gmRaI86Ckb2yu1WCw9UoDtg-hXMkEj0MbE2tlkEewbX64ACe5Qg_TzNcry0uiITw67nuyr2n7Jvgc_GMiijI9F');
   try {
     const Results = await spotifyApi.searchTracks(item);
     const { items } = Results.body.tracks;
@@ -204,7 +204,7 @@ exports.addToPlaylist = async (ctx) => {
     const track = ctx.request.body;
     console.log('track', track);
     const { id, playlistId } = ctx.params;
-    spotifyApi.setAccessToken( 'BQAxfmS5NN5pUo3bDLi006acm2cApdUhcj4J-L7nyOKe1u-ul0SZFwnJwznIEvvh5U_Q9l3kriRxG46svo5POFmiabL8-j0B3PBppUSHLdKD4JTLC51j4dPGHSryp6gmRaI86Ckb2yu1WCw9UoDtg-hXMkEj0MbE2tlkEewbX64ACe5Qg_TzNcry0uiITw67nuyr2n7Jvgc_GMiijI9F');
+    //spotifyApi.setAccessToken( 'BQAxfmS5NN5pUo3bDLi006acm2cApdUhcj4J-L7nyOKe1u-ul0SZFwnJwznIEvvh5U_Q9l3kriRxG46svo5POFmiabL8-j0B3PBppUSHLdKD4JTLC51j4dPGHSryp6gmRaI86Ckb2yu1WCw9UoDtg-hXMkEj0MbE2tlkEewbX64ACe5Qg_TzNcry0uiITw67nuyr2n7Jvgc_GMiijI9F');
     
     const addedSong = await spotifyApi.addTracksToPlaylist(playlistId, [`spotify:track:${id}`],);
     await Playlist.findOneAndUpdate({playlistId:playlistId}, {$push:{songs:track}}, {useFindAndModify: false});
@@ -226,11 +226,39 @@ exports.getPlaylist = async (ctx) => {
   const { playlistId } = ctx.params;
   try {
     const playlist = await Playlist.findOne({playlistId:playlistId});
+    if (!playlist.songs) ctx.body = 'no songs in the list';
     const { songs } = playlist;
     ctx.body = songs;
     ctx.status = 200;
   } catch (err) {
     if (err) console.error('something went wrong with getting playlist', err);
+    ctx.body = {
+      errors: [err],
+    };
+    ctx.status = 500;
+  }
+};
+
+exports.removeSong = async (ctx) => {
+  const { songId, playlistId } = ctx.params;
+  console.log('song id, playlist', songId, playlistId);
+  
+  try { // finds song in the database and removes it
+    //spotifyApi.setAccessToken('BQAnXx6XGAZpGN81qEcJiwHOdMqODGYLX7za8TpNxWE2lsai0st4gIWHOdwlP0RFvCTDfRLD4-WvJUXQ9zFtAjIl-t3jvwzMIBgKVb_e0LZSLhbj7L39Z_2lLDRnicFUTjpm5f0WuBna3FVYRlgtxPwAizMVTHVVAarmI5r7V0yA293kyDVqmaarjJJAEGh4uKkttOiMmUSjFVHBHzdr');
+    await Playlist.findOneAndUpdate({playlistId:playlistId}, {$pull:{songs:{id: songId}}},{multi: true, useFindAndModify: false});
+    const playlist = await Playlist.findOne({playlistId:playlistId});
+    const { songs } = playlist;
+    console.log('removed song from playlist', songs);
+    // removes song from spotify playlist
+    await spotifyApi.removeTracksFromPlaylist(playlistId, [
+      {
+        uri:`spotify:track:${songId}`
+      }
+    ]);
+
+    ctx.body = songs;
+  } catch (err) {
+    if (err) console.error('something went wrong with removing song', err);
     ctx.body = {
       errors: [err],
     };

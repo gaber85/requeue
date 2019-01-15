@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
-import { addSongToPlaylist, removeSong } from '../redux-store/actions'
+import { fetchPlaylist, removeSong } from '../redux-store/actions'
 
 class NextUp extends Component {
   constructor (props) {
@@ -14,7 +14,7 @@ class NextUp extends Component {
   REMOVE_SONG_URL = 'http://localhost:3001/remove';
 
   handleGetPlaylist = () => {
-    fetch(`${this.GET_PLAYLIST_URL}/${'0GxFN5mT4MF7NXklfZOJY3'}`, {
+    fetch(`${this.GET_PLAYLIST_URL}/${this.props.user.playlist.playlistId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -22,9 +22,7 @@ class NextUp extends Component {
     })
     .then(res => res.json())
     .then(tracks => {
-      tracks.forEach(track => {
-        this.props.addSongToPlaylist(track);
-      });
+      this.props.fetchPlaylist(tracks);
     });
   }
 
@@ -33,8 +31,8 @@ class NextUp extends Component {
   }
 
   handleRemoveSong = (id) => {
-    fetch(`${this.REMOVE_SONG_URL}/${id}`, {
-      method: 'delete'
+    fetch(`${this.REMOVE_SONG_URL}/${id}/${this.props.user.playlist.playlistId}`, {
+      method: 'delete',
     });
     this.props.removeSong(id);
   }
@@ -97,7 +95,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   // maps dispatch actions to props
-  addSongToPlaylist: (song) => dispatch(addSongToPlaylist(song)),
+  fetchPlaylist: (song) => dispatch(fetchPlaylist(song)),
   removeSong: (id) => dispatch(removeSong(id)),
 })
 
