@@ -152,26 +152,48 @@ exports.createSession = async (ctx) => {
     };
 
   } else {
-    (async () => {
-      try {
-        // spotifyApi.setAccessToken('BQCD3gOL9G4IuTdTcZl2DhSUKwBtL6yuqBcfxb-fWgeafuLgEIwcaOdwjen-dbRZgwvtFJZGIaP3drzRPRxD0STq-CKRPM481eIQnjDsFvxguLr-hTDycKpZWV_67rfuCZHNqK1JoYjuW-sfUhlzihCzNjXTcVlCSizVrMPDDsBRQ25sL1JawA0QLaltMd1fFf5jDro431y9TR5v1a1y');
-        const data = await spotifyApi.createPlaylist(id, 'requeue', { public: true });
-        console.log('data:', data);
-        
-        console.log('data.body.id', data.body.id);
-        const newPlaylist = await Playlist.create({
-          userId: id,
-          playlistName: 'requeue',
-          playlistId: data.body.id,
-          songs: [],
-          codeWord: codeWord,
-        });
-        console.log('Created new playlist:', newPlaylist);
-        ctx.body = {playlistId: data.body.id, codeWord: codeWord};
-        ctx.status =201;
-      } catch (err) {
-        if (err) console.log('Something went wrong!', err);
-      }
-    })();
+    try {
+      // spotifyApi.setAccessToken('BQCD3gOL9G4IuTdTcZl2DhSUKwBtL6yuqBcfxb-fWgeafuLgEIwcaOdwjen-dbRZgwvtFJZGIaP3drzRPRxD0STq-CKRPM481eIQnjDsFvxguLr-hTDycKpZWV_67rfuCZHNqK1JoYjuW-sfUhlzihCzNjXTcVlCSizVrMPDDsBRQ25sL1JawA0QLaltMd1fFf5jDro431y9TR5v1a1y');
+      const data = await spotifyApi.createPlaylist(id, 'requeue', { public: true });
+      console.log('data:', data);
+      
+      console.log('data.body.id', data.body.id);
+      const newPlaylist = await Playlist.create({
+        userId: id,
+        playlistName: 'requeue',
+        playlistId: data.body.id,
+        songs: [],
+        codeWord: codeWord,
+      });
+      console.log('Created new playlist:', data.body.id);
+      ctx.body = {playlistId: data.body.id, codeWord: codeWord};
+      ctx.status =201;
+    } catch (err) {
+      if (err) console.log('Something went wrong!', err);
+    }
+  }
+};
+
+exports.search = async (ctx) => {
+  console.log('enters search function');
+  
+  const { item } = ctx.params;
+  spotifyApi.setAccessToken('BQAO-00arYqh_66iwSzyGgKJiGahjM-Cg1URFAf1ZhIA-vlT-_IocaUzWatKt3tIwp1b_qbCIg6jWpweRrleU7Ys6CweNcI3bf7_uK6U6DgzRLBnaX641ihtxhz0YxjuZdTgWwCCv8K2yeY6QeKUu8TZDgqgAzV1JaqjLumciZsjj3NMlf4U68YY-SNFeIR2_-Dc15Tytjylv6AL5xS_');
+  try {
+    const Results = await spotifyApi.searchTracks(item);
+    const { items } = Results.body.tracks;
+    const tracks = items.map((track) => {
+      const obj = {
+        id: track.id,
+        name: track.name,
+        artists: track.artists.map((artist) => artist.name).join(', '),
+        image: track.album.images[0].url,
+      };
+      return obj;
+    });
+    console.log('search results: ', tracks);
+    ctx.body = tracks;
+  } catch (err) {
+    if (err) console.error('something went wrong while searching', err);
   }
 };

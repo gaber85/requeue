@@ -200,16 +200,40 @@ ul {
 }
 
 .search-results {
-  display: flex;
-  flex-wrap: wrap;
+  margin: auto;
+  /* display: flex; */
+  /* flex-wrap: wrap; */
   padding: 15px;
-  text-align: left;
+  text-align: center;
   color: lightgray;
   overflow-y: scroll;
-  flex: 1;
+  /* flex: 1; */
 }
 
 .search-item {
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 75px;
+  width: 40%;
   padding: 10px;
+  margin: 5px;
+  /* background-color: aqua; */
+  text-align: left;
+  /* flex: 1; */
+}
+.search-item:hover{
+  background-color: #333333;
 }
 
+.track-cover {
+  height: 60px;
+  width: 60px;
+  border-radius: 10px;
+  margin-right: 5px;
+}
+
+.track-info {
+  display: flex;
+  flex-direction: column;
+}

@@ -5,6 +5,7 @@ class Search extends Component {
     super(props);
     this.state = {
       search: '',
+      tracks: '',
     }
   }
 
@@ -17,23 +18,24 @@ class Search extends Component {
   handleSearchSubmit = (e) => {
     e.preventDefault();
     if (this.state.search) {
-      fetch(this.BASE_URL, {
-        method: 'post',
-        body: JSON.stringify(this.state),
+      fetch(`${this.SEARCH_URL}/${this.state.search}`, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
-      }).then(res => res.json())
-        .then(res => {
-          // deal with the search results to render in search-results div
-        })
+      })
+      .then(res => res.json())
+      .then(tracks => {
+        this.setState({
+          tracks: tracks,
+        });
+      });
     }
-    this.setState({
-      search: '',
-    })
+    
   }
   
   render() {
+    const { tracks }= this.state;
     return (
       <div className="next-up-section ">
         <div className="search-header">Search</div>
@@ -44,11 +46,23 @@ class Search extends Component {
             type="text" placeholder="Search..."></input>
         </form>
         <div className="search-results">
-          <ul className="search-results">
-            <li className="search-item">
-              Gabe Riera
-            </li>
-          </ul>
+          {/* <ul className="search-results"> */}
+          {tracks ?
+            tracks.map((track) => {
+              return (
+                <div className="search-item">
+                  <img src={track.image} alt="album_cover" className="track-cover"></img>
+                  <div className="track-info">
+                    <div>{track.name}</div>
+                    <div>{track.artists}</div>
+                  </div>
+                </div>
+              )
+            })
+          :
+            <div></div>
+          }
+          {/* </ul> */}
         </div>
       </div>
     );

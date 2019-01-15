@@ -62,7 +62,7 @@ class IntroPage extends Component {
   this.getProfileInfo();
   setTimeout(() => this.handleWelcome(), 2000); // this delay the rendering for the welcome
   }
-
+//
   createSession = () => {
     fetch(`${this.CREATE_URL}/${this.state.id}`, {
       method: "GET",
@@ -70,14 +70,14 @@ class IntroPage extends Component {
         "Content-Type": "application/json",
       }
     })
-    .then(res => res.text())
-    .then(text => console.log(text))
-     //.then(data => data.json())
-      // .then(session => {
-      //   console.log('session', session);
-      //   this.props.getPlaylist(session.playlistId, session.codeWord);
-      //   this.props.history.push(`/host/${session.codeWord}`);
-      // })
+    //  .then(res => res.text())
+    // .then(text => console.log(text))
+     .then(data => data.json())
+      .then(session => {
+        console.log('session', session);
+        this.props.getPlaylist(session.playlistId, session.codeWord);
+        this.props.history.push(`/host/${session.codeWord}`);
+      })
   }
 
   render() {

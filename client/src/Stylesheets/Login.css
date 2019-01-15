@@ -101,11 +101,13 @@
 .small-logo {
   width: 30%;
   min-width: 150px;
+  max-width: 250px;
   padding-right: 2.5%;
 }
 
 .intro-title {
   font-size: 7vw;
+  font-weight: 900;
   color: white;
   align-self: flex-start;
   padding: 25px 0px 35px 0px;
@@ -144,7 +146,7 @@
 
 .welcome-title {
   font-size: 10vw;
-  font-weight: 500;
+  font-weight: 900;
   color: white;
   align-self: center;
   padding: 10px;
