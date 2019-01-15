@@ -36,6 +36,19 @@ const user = (state = defaultState, action) => {
           codeWord: action.codeWord,
         }
       }
+    case 'ADD_SONG':
+      return {
+        ...state,
+        playlist: {
+          ...state.playlist,
+          songs: [...state.playlist.songs, {
+            id: action.id,
+            image: action.image,
+            name: action.name,
+            artists: action.artists,
+          }]
+        }
+      }
     default:
       return state;
   }

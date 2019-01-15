@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { connect } from "react-redux";
 
 class NextUp extends Component {
   constructor (props) {
@@ -67,4 +68,16 @@ class NextUp extends Component {
   }
 }
 
-export default NextUp;
+const mapStateToProps = (state) => ({
+  // maps state to props
+  user: state.user,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  // maps dispatch actions to props
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NextUp);

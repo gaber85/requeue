@@ -15,3 +15,11 @@ export const getPlaylist = (playlistId, codeWord) => ({
   playlistId: playlistId,
   codeWord: codeWord,
 });
+
+export const addSongToPlaylist = (song) => ({
+  type: 'ADD_SONG',
+  id: song.id,
+  image: song.image,
+  name: song.name,
+  artists: song.artists
+});
