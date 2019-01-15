@@ -21,5 +21,11 @@ export const addSongToPlaylist = (song) => ({
   id: song.id,
   image: song.image,
   name: song.name,
-  artists: song.artists
+  artists: song.artists,
+  album: song.album,
+});
+
+export const removeSong = (id) => ({
+  type: 'REMOVE_SONG',
+  id: id,
 });

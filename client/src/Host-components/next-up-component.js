@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from "react-redux";
+import { addSongToPlaylist, removeSong } from '../redux-store/actions'
 
 class NextUp extends Component {
   constructor (props) {
@@ -8,10 +9,41 @@ class NextUp extends Component {
       favorite: false,
     }
   }
+
+  GET_PLAYLIST_URL = 'http://localhost:3001/playlist';
+  REMOVE_SONG_URL = 'http://localhost:3001/remove';
+
+  handleGetPlaylist = () => {
+    fetch(`${this.GET_PLAYLIST_URL}/${'0GxFN5mT4MF7NXklfZOJY3'}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => res.json())
+    .then(tracks => {
+      tracks.forEach(track => {
+        this.props.addSongToPlaylist(track);
+      });
+    });
+  }
+
+  componentWillMount() {
+    this.handleGetPlaylist();
+  }
+
+  handleRemoveSong = (id) => {
+    fetch(`${this.REMOVE_SONG_URL}/${id}`, {
+      method: 'delete'
+    });
+    this.props.removeSong(id);
+  }
+
   toggleLike = () => {
     this.setState({favorite: !this.state.favorite});
   }
   render() {
+    const { songs } = this.props.user.playlist;
     return (
       <div className="next-up-section">
         <div className="next-up-header">Next Up</div>
@@ -30,36 +62,26 @@ class NextUp extends Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><i className="fas fa-bars"></i></td>
-                <td onClick={this.toggleLike}><i className={this.state.favorite ? "fas fa-heart" : "far fa-heart"}></i></td>
-                <td>What's the Use?</td>
-                <td>Mac Miller</td>
-                <td>Swimming</td>
-                <td>John</td>
-                <td><i className="fas fa-ellipsis-h"></i></td>
-                <td><i className="far fa-trash-alt"></i></td>
-              </tr>
-              <tr>
-                <td><i className="fas fa-bars"></i></td>
-                <td ><i className="far fa-heart"></i></td>
-                <td>What's the Use?</td>
-                <td>Mac Miller</td>
-                <td>Swimming</td>
-                <td>John</td>
-                <td><i className="fas fa-ellipsis-h"></i></td>
-                <td><i className="far fa-trash-alt"></i></td>
-              </tr>
-              <tr>
-                <td><i className="fas fa-bars"></i></td>
-                <td><i className="far fa-heart"></i></td>
-                <td>What's the Use?</td>
-                <td>Mac Miller</td>
-                <td>Swimming</td>
-                <td>John</td>
-                <td><i className="fas fa-ellipsis-h"></i></td>
-                <td><i className="far fa-trash-alt"></i></td>
-              </tr>
+              {songs 
+                ?
+                  songs.map((song) => {
+                    return (
+                      <tr key={song.id}>
+                        <td><i className="fas fa-bars"></i></td>
+                        <td></td>
+                        <td>{song.name}</td>
+                        <td>{song.artists}</td>
+                        <td>{song.album}</td>
+                        <td>Gabe</td>
+                        <td><i className="fas fa-ellipsis-h"></i></td>
+                        <td className="trash-can" onClick={() => this.handleRemoveSong(song.id)}><i className="far fa-trash-alt"></i></td>
+                      </tr>
+                    )
+                  })
+                :
+                  (<div></div>)
+              }
+
             </tbody>
           </table>
         </div>
@@ -75,9 +97,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   // maps dispatch actions to props
+  addSongToPlaylist: (song) => dispatch(addSongToPlaylist(song)),
+  removeSong: (id) => dispatch(removeSong(id)),
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(NextUp);
+
+//onClick={this.toggleLike}><i className={this.state.favorite ? "fas fa-heart" : "far fa-heart"}></i>

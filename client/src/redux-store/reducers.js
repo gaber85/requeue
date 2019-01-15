@@ -46,7 +46,17 @@ const user = (state = defaultState, action) => {
             image: action.image,
             name: action.name,
             artists: action.artists,
+            album: action.album,
           }]
+        }
+      }
+    case 'REMOVE_SONG':
+      const updatedSongList = state.playlist.songs.filter((song) => song.id !== action.id);
+      return {
+        ...state,
+        playlist: {
+          ...state.playlist,
+          songs: [ ...updatedSongList ]
         }
       }
     default:

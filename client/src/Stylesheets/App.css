@@ -200,6 +200,10 @@ ul {
   list-style: none;
 }
 
+.trash-can {
+  cursor: pointer;
+}
+
 .search-results {
   margin: auto;
   padding: 15px;

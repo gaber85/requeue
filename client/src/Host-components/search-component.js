@@ -38,12 +38,13 @@ class Search extends Component {
     
   }
 
-  handleAddToPlaylist = (id, image, name, artists) => {
+  handleAddToPlaylist = (id, image, name, artists, album) => {
     const song = {
       id: id,
       image: image,
       name: name,
       artists: artists,
+      album: album,
     }   
     fetch(`${this.ADD_URL}/${id}/${this.props.user.playlist.playlistId}`, {
       method: 'PUT',
@@ -77,7 +78,7 @@ class Search extends Component {
           {tracks ?
             tracks.map((track) => {
               return (
-                <div key={track.id} className="search-item" onClick={() => this.handleAddToPlaylist(track.id, track.image, track.name, track.artists)}>
+                <div key={track.id} className="search-item" onClick={() => this.handleAddToPlaylist(track.id, track.image, track.name, track.artists, track.album)}>
                   <img src={track.image} alt="album_cover" className="track-cover"></img>
                   <div className="track-info">
                     <div>{track.name}</div>
@@ -90,7 +91,6 @@ class Search extends Component {
           :
             <div></div>
           }
-          {/* </ul> */}
         </div>
       </div>
     );

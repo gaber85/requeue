@@ -188,6 +188,7 @@ exports.search = async (ctx) => {
         name: track.name,
         artists: track.artists.map((artist) => artist.name).join(', '),
         image: track.album.images[0].url,
+        album: track.album.name,
       };
       return obj;
     });
@@ -209,10 +210,27 @@ exports.addToPlaylist = async (ctx) => {
     await Playlist.findOneAndUpdate({playlistId:playlistId}, {$push:{songs:track}}, {useFindAndModify: false});
     const updatedPlaylist = await Playlist.findOne({playlistId:playlistId});
 
+    console.log('added song to playlist:', track);
     ctx.body = updatedPlaylist;
     ctx.status = 200;
   } catch (err) {
     if (err) console.error('something went wrong with adding song to playlist', err);
+    ctx.body = {
+      errors: [err],
+    };
+    ctx.status = 500;
+  }
+};
+
+exports.getPlaylist = async (ctx) => {
+  const { playlistId } = ctx.params;
+  try {
+    const playlist = await Playlist.findOne({playlistId:playlistId});
+    const { songs } = playlist;
+    ctx.body = songs;
+    ctx.status = 200;
+  } catch (err) {
+    if (err) console.error('something went wrong with getting playlist', err);
     ctx.body = {
       errors: [err],
     };
