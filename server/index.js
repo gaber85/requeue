@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3001;
 const bodyParser = require('koa-bodyparser');
 const router = require('./router.js');
 const cors = require('@koa/cors');
-require('./model');
+require('./model'); //requires the database
 
 app.use(cors({
   'Access-Control-Allow-Origin': '*',

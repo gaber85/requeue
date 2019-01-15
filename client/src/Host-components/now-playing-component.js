@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import coverImg from './cover-placeholder.png';
+import { connect } from "react-redux";
 
 class NowPlaying extends Component {
   constructor (props) {
     super (props);
     this.state = {
       favorite: false,
-      access_token: this.props.token,
+      access_token: this.props.user.currentUser.token,
       deviceId: '',
       loggedIn: false,
       error: "",
@@ -23,8 +24,8 @@ class NowPlaying extends Component {
   }
 
   handlePlayer() {
-    console.log(this.props.token);
-    if (this.props.token) {
+    console.log(this.props.user.currentUser.token);
+    if (this.props.user.currentUser.token) {
       this.setState({ loggedIn: true });
       // check every second for the player
       this.playerCheckInterval = setInterval(() => this.checkForPlayer(), 1000);
@@ -32,7 +33,7 @@ class NowPlaying extends Component {
   }
 
   checkForPlayer() {
-    const { token } = this.props;
+    const { token } = this.props.user.currentUser;
     console.log('token', token);
     if (window.Spotify.Player !== undefined) {
       this.player = new window.Spotify.Player({
@@ -84,12 +85,7 @@ class NowPlaying extends Component {
 
   onStateChanged(state) {
     if (state !== null) {
-      const {
-        current_track: currentTrack,
-        next_tracks: nextSongs,
-        position,
-        duration,
-      } = state.track_window;
+      const { current_track: currentTrack, next_tracks: nextSongs, position, duration } = state.track_window;
       const trackName = currentTrack.name;
       const albumName = currentTrack.album.name;
       const albumCover = currentTrack.album.images.map(image => image.url)[0];
@@ -108,7 +104,6 @@ class NowPlaying extends Component {
       });
     }
   }
-
   //player controls
   onPrevClick() {
     this.player.previousTrack();
@@ -127,24 +122,11 @@ class NowPlaying extends Component {
   }
 
   render() {
-    const {
-      // access_token,
-      loggedIn,
-      artistName,
-      trackName,
-      albumName,
-      albumCover,
-      // error,
-      // position,
-      // duration,
-      playing,
-    } = this.state
-
+    const { loggedIn, artistName, trackName, albumName, albumCover, playing } = this.state;
     const cover = coverImg;
 
     return (
       <div className="now-playing-container">
-        
       {loggedIn ?
         (<div className="now-playing-container">
           <div className="now-playing-header">
@@ -179,4 +161,16 @@ class NowPlaying extends Component {
   }
 }
 
-export default NowPlaying;
+const mapStateToProps = (state) => ({
+  // maps state to props
+  user: state.user,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  // maps dispatch actions to props
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NowPlaying);

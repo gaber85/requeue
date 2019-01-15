@@ -27,6 +27,15 @@ const user = (state = defaultState, action) => {
           id: action.id,
         }
       }
+    case 'GET_PLAYLIST':
+      return {
+        ...state,
+        playlist: {
+          ...state.playlist,
+          playlistId: action.playlistId,
+          codeWord: action.codeWord,
+        }
+      }
     default:
       return state;
   }

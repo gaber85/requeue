@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getToken, getUser } from '../redux-store/actions'
+import { getToken, getUser, getPlaylist } from '../redux-store/actions'
 
 class IntroPage extends Component {
   constructor(props) {
@@ -64,11 +64,20 @@ class IntroPage extends Component {
   }
 
   createSession = () => {
-    fetch(`${this.CREATE_URL}/${this.state.id}`)
-    .then(res => res.json())
-    .then(session => {
-      this.props.history.go(`/host/${session.id}`);
+    fetch(`${this.CREATE_URL}/${this.state.id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
     })
+    .then(res => res.text())
+    .then(text => console.log(text))
+     //.then(data => data.json())
+      // .then(session => {
+      //   console.log('session', session);
+      //   this.props.getPlaylist(session.playlistId, session.codeWord);
+      //   this.props.history.push(`/host/${session.codeWord}`);
+      // })
   }
 
   render() {
@@ -100,12 +109,10 @@ const mapDispatchToProps = (dispatch) => ({
   // maps dispatch actions to props
   getToken: (token) => dispatch(getToken(token)),
   getUser: (name, imageURL, id) => dispatch(getUser(name, imageURL, id)),
+  getPlaylist: (playlistId, codeWord) => dispatch(getPlaylist(playlistId, codeWord)),
 })
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(IntroPage);
-
- // <NavBar url={this.state.url ? this.state.url : userPic} name={this.state.name} />
-        // <NowPlaying token={this.access_token} />

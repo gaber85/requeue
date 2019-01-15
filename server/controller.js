@@ -10,6 +10,7 @@ require('dotenv').config();
 
 let access_token = '';
 let refresh_token = '';
+const stateKey = 'spotify_auth_state';
 
 const generateRandomString = (length) => {
   let text = '';
@@ -18,14 +19,6 @@ const generateRandomString = (length) => {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   }
   return text;
-};
-const stateKey = 'spotify_auth_state';
-exports.test = async (ctx) => {
-  
-};
-
-exports.loginCheck = async (ctx) => {
-  // check to see if user's token is still valid
 };
 
 exports.login = async (ctx) => {
@@ -113,7 +106,7 @@ exports.callback = async (ctx) => {
               userAccessToken: access_token,
               userRefreshToken: refresh_token,
             });
-            console.log('new user created: ', newUser);
+            console.log('new user created: ', newUser); // eslint-disable-line no-console
             
             ctx.body = response;
             // need to save to database user profile and access token
@@ -148,31 +141,37 @@ exports.createSession = async (ctx) => {
     return codeWord;
   };
   const { id } = ctx.params;
-  spotifyApi.setAccessToken(user.userAccessToken);
   const codeWord = generateCodeWord();
   const playlist = await Playlist.findOne({ userId: id, playlistName: 'requeue' });
-
-  playlist ?
+  console.log('playlist if it exists in the db:', playlist);
+  
+  if (playlist) {
     ctx.body = {
       playlistId: playlist.playlistId,
       codeWord: playlist.codeWord,
-    }
-    :
-    spotifyApi.createPlaylist(id, 'requeue', { public: true })
-      .then(async (data) => {
+    };
+
+  } else {
+    (async () => {
+      try {
+        // spotifyApi.setAccessToken('BQCD3gOL9G4IuTdTcZl2DhSUKwBtL6yuqBcfxb-fWgeafuLgEIwcaOdwjen-dbRZgwvtFJZGIaP3drzRPRxD0STq-CKRPM481eIQnjDsFvxguLr-hTDycKpZWV_67rfuCZHNqK1JoYjuW-sfUhlzihCzNjXTcVlCSizVrMPDDsBRQ25sL1JawA0QLaltMd1fFf5jDro431y9TR5v1a1y');
+        const data = await spotifyApi.createPlaylist(id, 'requeue', { public: true });
+        console.log('data:', data);
+        
+        console.log('data.body.id', data.body.id);
         const newPlaylist = await Playlist.create({
-          playlistName: 'requeue',
-          PlaylistId: data.body.id,
           userId: id,
-          Songs: [],
+          playlistName: 'requeue',
+          playlistId: data.body.id,
+          songs: [],
           codeWord: codeWord,
         });
-        console.log('Created playlist:', newPlaylist);
-        ctx.body = {
-          playlistId: data.body.id,
-          codeWord: codeWord,
-        };
-      }, (err) => {
-        console.log('Something went wrong!', err);
-      });
+        console.log('Created new playlist:', newPlaylist);
+        ctx.body = {playlistId: data.body.id, codeWord: codeWord};
+        ctx.status =201;
+      } catch (err) {
+        if (err) console.log('Something went wrong!', err);
+      }
+    })();
+  }
 };

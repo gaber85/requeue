@@ -9,3 +9,9 @@ export const getUser = (name, imageURL, id) => ({
   image: imageURL,
   id: id,
 });
+
+export const getPlaylist = (playlistId, codeWord) => ({
+  type: 'GET_PLAYLIST',
+  playlistId: playlistId,
+  codeWord: codeWord,
+});

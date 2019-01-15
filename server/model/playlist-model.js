@@ -8,6 +8,6 @@ PlaylistSchema = new mongoose.Schema({
   codeWord: String,
 });
 
-const Playlist = mongoose.model('Playlist', userSchema);
+const Playlist = mongoose.model('Playlist', PlaylistSchema);
 
 module.exports = Playlist;
