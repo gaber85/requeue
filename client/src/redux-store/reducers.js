@@ -25,6 +25,7 @@ const user = (state = defaultState, action) => {
           name: action.name,
           image: action.image,
           id: action.id,
+          logged: action.loggedIn,
         }
       }
     case 'GET_PLAYLIST':
@@ -65,6 +66,14 @@ const user = (state = defaultState, action) => {
         playlist: {
           ...state.playlist,
           songs: action.songs,
+        }
+      }
+    case 'LOGGED_IN':
+      return {
+        ...state,
+        currentUser: {
+          ...state.currentUser,
+          logged: action.logged,
         }
       }
     default:

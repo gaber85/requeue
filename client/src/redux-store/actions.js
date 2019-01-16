@@ -3,11 +3,12 @@ export const getToken = (token) => ({
   token: token,
 });
 
-export const getUser = (name, imageURL, id) => ({
+export const getUser = (name, imageURL, id, loggedIn) => ({
   type: 'GET_USER',
   name: name,
   image: imageURL,
   id: id,
+  loggedIn: loggedIn,
 });
 
 export const getPlaylist = (playlistId, codeWord) => ({
@@ -34,3 +35,8 @@ export const fetchPlaylist = (songs) => ({
   type: 'FETCH_PLAYLIST',
   songs: songs,
 });
+
+export const loggedIn = (yes) => ({
+  type: 'LOGGED_IN',
+  logged: yes,
+})

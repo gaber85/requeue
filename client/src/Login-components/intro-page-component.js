@@ -42,7 +42,7 @@ class IntroPage extends Component {
       },
     }).then(response => response.json())
       .then(props  => {
-        this.props.getUser(props.display_name.split(' ')[0], props.images.length ? props.images[0].url : '', props.id);
+        this.props.getUser(props.display_name.split(' ')[0], props.images.length ? props.images[0].url : '', props.id, false);
         this.setState({ 
           url: props.images.length ? props.images[0].url : '',
           name: props.display_name.split(' ')[0],
@@ -108,7 +108,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   // maps dispatch actions to props
   getToken: (token) => dispatch(getToken(token)),
-  getUser: (name, imageURL, id) => dispatch(getUser(name, imageURL, id)),
+  getUser: (name, imageURL, id, loggedIn) => dispatch(getUser(name, imageURL, id, loggedIn)),
   getPlaylist: (playlistId, codeWord) => dispatch(getPlaylist(playlistId, codeWord)),
 })
 

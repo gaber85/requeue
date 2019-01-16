@@ -41,7 +41,7 @@ class NextUp extends Component {
     this.setState({favorite: !this.state.favorite});
   }
   render() {
-    const { songs } = this.props.user.playlist;
+    const songs = this.props.user.playlist.songs ? this.props.user.playlist.songs : [];
     return (
       <div className="next-up-section">
         <div className="next-up-header">Next Up</div>
