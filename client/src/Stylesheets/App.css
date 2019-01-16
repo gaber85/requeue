@@ -69,7 +69,8 @@
 }
 
 .now-playing-container {
-  margin-top: 25px;
+  margin-top: 20px;
+  margin: 5px;
   background-color: #282828;
   box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 1);
   border-radius: 15px;
@@ -284,6 +285,7 @@ ul {
   color: gray;
   border-style: hidden;
   cursor: pointer;
+  outline: none;
 }
 
 .backward-forward-button:hover {
@@ -319,14 +321,18 @@ ul {
 
 .play-here-button {
   color: gray;
-  padding: 20px;
-  font-size: 20px;
+  padding: 10px;
+  font-size: 30px;
   outline: none;
   cursor: pointer;
   border-radius: 50%;
   background-color: transparent;
   cursor: pointer;
   border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none;
 }
 
 .play-here-button:hover {
