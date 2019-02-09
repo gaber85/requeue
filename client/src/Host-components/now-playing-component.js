@@ -24,6 +24,11 @@ class NowPlaying extends Component {
     this.playerCheckInterval = null;
   }
 
+  componentWillUnmount() {
+    this.player.disconnect();
+    clearInterval(this.playerCheckInterval);
+  }
+
   handlePlayer() {
     console.log(this.props.user.currentUser.token);
     if (this.props.user.currentUser.token) {
