@@ -4,8 +4,6 @@
 </p>
 Receive and queue song requests in a closed network with an intuitive platform that provides you with control on what song plays next.
 
-## Screenshots
-
 <img alt="Requeue screenshots" src="https://github.com/gaber85/requeue/blob/master/Extras/Requeue%20Screenshots.png?raw=true" />
 
 ## Getting Started
