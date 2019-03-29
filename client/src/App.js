@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import styled from "@emotion/styled";
 import "./Stylesheets/App.css";
 import "./Stylesheets/Login.css";
 
@@ -16,7 +17,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="main-container">
+        <MainContainer className="main-container">
           <Route exact path="/" component={LandingPage} />
           <Route path="/sign-in" component={SignInPage} />
           <Route path="/register" component={Register1} />
@@ -26,10 +27,15 @@ class App extends Component {
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/search" component={SearchContainer} />
           <Route path="/history" component={History} />
-        </div>
+        </MainContainer>
       </Router>
     );
   }
 }
+
+const MainContainer = styled('div')`
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+`
 
 export default App;

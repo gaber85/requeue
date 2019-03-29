@@ -1,9 +1,7 @@
-.main-container {
-  display: flex;
-  flex-direction: column;
+/* .main-container {
   height: 100%;
   font-family: 'Roboto', sans-serif;
-}
+} */
 
 .nav-bar {
   display: flex;
